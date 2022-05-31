@@ -38,8 +38,8 @@ public class PercentageSpawner<TObj>
             lockedList = new List<int>();
             for (int i = 0; i < spawnObjects.Count; i++)
             {
-                spawnObjects[i].chanceToSpawn = 1f / lengthObjects;
-                spawnObjects[i].prevChance = spawnObjects[i].chanceToSpawn;
+                spawnObjects[i].chance = 1f / lengthObjects;
+                spawnObjects[i].prevChance = spawnObjects[i].chance;
                 if (spawnObjects[i].locked)
                     lockedList.Add(i);
             }
@@ -99,24 +99,24 @@ public class PercentageSpawner<TObj>
                 {
                     if (indexList.Contains(i))
                     {
-                        sum += spawnObjects[i].chanceToSpawn;
+                        sum += spawnObjects[i].chance;
                         continue;
                     }
-                    spawnObjects[i].chanceToSpawn -= changeAmount;
-                    if (spawnObjects[i].chanceToSpawn < 0.000f)
+                    spawnObjects[i].chance -= changeAmount;
+                    if (spawnObjects[i].chance < 0.000f)
                     {
-                        spawnObjects[i].chanceToSpawn = 0.000f;
+                        spawnObjects[i].chance = 0.000f;
                         change = true;
                         indexList.Add(i);
                     }
-                    else if (spawnObjects[i].chanceToSpawn > 1.000f)
+                    else if (spawnObjects[i].chance > 1.000f)
                     {
-                        spawnObjects[i].chanceToSpawn = 1.000f;
+                        spawnObjects[i].chance = 1.000f;
                         change = true;
                         indexList.Add(i);
                     }
-                    sum += spawnObjects[i].chanceToSpawn;
-                    spawnObjects[i].prevChance = spawnObjects[i].chanceToSpawn;
+                    sum += spawnObjects[i].chance;
+                    spawnObjects[i].prevChance = spawnObjects[i].chance;
                 }
 
                 changeSum = sum - 1.000f;
@@ -126,8 +126,8 @@ public class PercentageSpawner<TObj>
                 }
                 if (indexList.Count == spawnObjects.Count && spawnObjects.Count> 1)
                 {
-                    spawnObjects[index].chanceToSpawn -= changeSum;
-                    spawnObjects[index].prevChance = spawnObjects[index].chanceToSpawn;
+                    spawnObjects[index].chance -= changeSum;
+                    spawnObjects[index].prevChance = spawnObjects[index].chance;
                     break;
                 }
             }

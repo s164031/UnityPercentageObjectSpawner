@@ -10,7 +10,7 @@ public class PercentageSpawner<TObj>
     {
         public TObj spawnObject;
         [Range(0.00f, 1.00f)]
-        public float chanceToSpawn;
+        public float chance;
         internal float prevChance;
         public bool locked;
         internal bool prevLocked;
@@ -54,7 +54,7 @@ public class PercentageSpawner<TObj>
             foreach (SpawnObject spawnObject in spawnObjects)
             {
                 //Check if it's a change in probability (the slider)
-                if (spawnObject.prevChance != spawnObject.chanceToSpawn)
+                if (spawnObject.prevChance != spawnObject.chance)
                 {
                     if (spawnObject.locked)
                     {
@@ -69,13 +69,13 @@ public class PercentageSpawner<TObj>
                     //Check if it is the only object which is unlocked
                     if (spawnObjects.Count > 1 && lockedList.Count >= spawnObjects.Count- 1)
                     {
-                        spawnObject.chanceToSpawn = spawnObject.prevChance;
+                        spawnObject.chance = spawnObject.prevChance;
                         break;
                     }
 
                     change = true;
-                    changeAmount = (spawnObject.chanceToSpawn - spawnObject.prevChance) / (spawnObjects.Count - indexList.Count);
-                    spawnObject.prevChance = spawnObject.chanceToSpawn;
+                    changeAmount = (spawnObject.chance - spawnObject.prevChance) / (spawnObjects.Count - indexList.Count);
+                    spawnObject.prevChance = spawnObject.chance;
                     break;
                 }
                 //Check if a lock has changed
@@ -140,11 +140,11 @@ public class PercentageSpawner<TObj>
         float chanceSum = 0.00f;
         foreach (SpawnObject obj in spawnObjects)
         {
-            if (obj.chanceToSpawn + chanceSum > rand)
+            if (obj.chance + chanceSum > rand)
             {
                 return obj.spawnObject;
             }
-            chanceSum += obj.chanceToSpawn;
+            chanceSum += obj.chance;
         }
         return default(TObj);
     }

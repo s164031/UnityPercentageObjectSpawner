@@ -17,6 +17,7 @@ public class PercentageTest : MonoBehaviour
     {
         print(intPercentage.GetRandomValue());
         print(stringPercentage.GetRandomValue());
+        print(gameObjectPercentage.GetRandomValue().name);
     }
 
     private void OnValidate()

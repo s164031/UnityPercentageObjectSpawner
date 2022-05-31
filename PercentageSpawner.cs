@@ -127,7 +127,7 @@ public class PercentageSpawner : MonoBehaviour
         }
     }
 
-    private GameObject GetRandomObject()
+    public GameObject GetRandomObject()
     {
         float rand = UnityEngine.Random.Range(0.000f, 1.000f);
         float chanceSum = 0.00f;

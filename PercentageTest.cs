@@ -23,6 +23,6 @@ public class PercentageTest : MonoBehaviour
     {
         gameObjectPercentage.ValidateFields();
         intPercentage.ValidateFields();
-        //stringPercentage.ValidateFields();
+        stringPercentage.ValidateFields();
     }
 }

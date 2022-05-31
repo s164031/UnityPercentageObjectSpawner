@@ -2,8 +2,16 @@
 
 Hey!
 
-I have added a c# script called PercentageSpawner.cs, with it includes all you need to pick a random object for your need.
+Please see PercentageTest.cs for an example on how to apply this to your own game!
 
-You can extent on the script itself if you like, but you can also pass it by reference to another script and just use the GetRandomObject() method.
+From any script you like you can now create a list of any type (gameobject, string, int, float etc.) and then access it from the inspector.
 
-Enjoy!
+In your monobehavior script simply add something like:
+```
+[SerializeField] PercentageSpawner<GameObject> gameObjectPercentage = new PercentageSpawner<GameObject>();
+
+private void OnValidate()
+{
+    gameObjectPercentage.ValidateFields();
+}
+```

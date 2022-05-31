@@ -2,12 +2,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class PercentageSpawner : MonoBehaviour
+[Serializable]
+public class PercentageSpawner<TObj>
 {
     [Serializable]
     public class SpawnObject
     {
-        public GameObject spawnObject;
+        public TObj spawnObject;
         [Range(0.00f, 1.00f)]
         public float chanceToSpawn;
         internal float prevChance;
@@ -15,21 +16,27 @@ public class PercentageSpawner : MonoBehaviour
         internal bool prevLocked;
     }
 
-    public SpawnObject[] spawnObjects;
+    [SerializeField]
+    List<SpawnObject> spawnObjects;
     private int lengthObjects = 0;
     private List<int> lockedList = new List<int>();
 
-    private void OnValidate()
+    public PercentageSpawner()
+    {
+        //spawnObjects = new List<SpawnObject>();
+    }
+
+    public void ValidateFields()
     {
         //Check if the list is empty/not initialized
         if (spawnObjects == null)
             return;
         //Check if list entry is added
-        if (lengthObjects != spawnObjects.Length)
+        if (lengthObjects != spawnObjects.Count)
         {
-            lengthObjects = spawnObjects.Length;
+            lengthObjects = spawnObjects.Count;
             lockedList = new List<int>();
-            for (int i = 0; i < spawnObjects.Length; i++)
+            for (int i = 0; i < spawnObjects.Count; i++)
             {
                 spawnObjects[i].chanceToSpawn = 1f / lengthObjects;
                 spawnObjects[i].prevChance = spawnObjects[i].chanceToSpawn;
@@ -60,14 +67,14 @@ public class PercentageSpawner : MonoBehaviour
                         indexList.Add(index);
                     }
                     //Check if it is the only object which is unlocked
-                    if(spawnObjects.Length > 1 && lockedList.Count >= spawnObjects.Length - 1)
+                    if (spawnObjects.Count > 1 && lockedList.Count >= spawnObjects.Count- 1)
                     {
                         spawnObject.chanceToSpawn = spawnObject.prevChance;
                         break;
                     }
 
                     change = true;
-                    changeAmount = (spawnObject.chanceToSpawn - spawnObject.prevChance) / (spawnObjects.Length - indexList.Count);
+                    changeAmount = (spawnObject.chanceToSpawn - spawnObject.prevChance) / (spawnObjects.Count - indexList.Count);
                     spawnObject.prevChance = spawnObject.chanceToSpawn;
                     break;
                 }
@@ -88,7 +95,7 @@ public class PercentageSpawner : MonoBehaviour
             {
                 change = false;
                 float sum = 0.000f;
-                for (int i = 0; i < spawnObjects.Length; i++)
+                for (int i = 0; i < spawnObjects.Count; i++)
                 {
                     if (indexList.Contains(i))
                     {
@@ -113,11 +120,11 @@ public class PercentageSpawner : MonoBehaviour
                 }
 
                 changeSum = sum - 1.000f;
-                if (change && spawnObjects.Length - indexList.Count > 0)
+                if (change && spawnObjects.Count - indexList.Count > 0)
                 {
-                    changeAmount = changeSum / (spawnObjects.Length - indexList.Count);
+                    changeAmount = changeSum / (spawnObjects.Count- indexList.Count);
                 }
-                if (indexList.Count == spawnObjects.Length && spawnObjects.Length > 1)
+                if (indexList.Count == spawnObjects.Count && spawnObjects.Count> 1)
                 {
                     spawnObjects[index].chanceToSpawn -= changeSum;
                     spawnObjects[index].prevChance = spawnObjects[index].chanceToSpawn;
@@ -127,7 +134,7 @@ public class PercentageSpawner : MonoBehaviour
         }
     }
 
-    public GameObject GetRandomObject()
+    public TObj GetRandomValue()
     {
         float rand = UnityEngine.Random.Range(0.000f, 1.000f);
         float chanceSum = 0.00f;
@@ -139,6 +146,6 @@ public class PercentageSpawner : MonoBehaviour
             }
             chanceSum += obj.chanceToSpawn;
         }
-        return null;
+        return default(TObj);
     }
 }

@@ -5,10 +5,10 @@ using UnityEngine;
 public class PercentageTest : MonoBehaviour
 {
     [SerializeField]
-    PercentageSpawner<GameObject> gameObjectPercentage;
+    PercentageSpawner<GameObject> gameObjectPercentage = new PercentageSpawner<GameObject>();
 
     [SerializeField]
-    PercentageSpawner<int> intPercentage;
+    PercentageSpawner<int> intPercentage = new PercentageSpawner<int>();
 
     [SerializeField]
     PercentageSpawner<string> stringPercentage = new PercentageSpawner<string>();
